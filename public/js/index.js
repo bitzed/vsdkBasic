@@ -114,7 +114,7 @@ async function joinSession() {
     console.log("get Session ID: ", sessionId);
     console.log("Connection Success");
     cameraStartStop(); //automatically unmute camera when join
-
+    audioStart(); //automatically start audio
   }).catch((error) => {
     console.log(error)
   })
@@ -129,6 +129,17 @@ function leaveSession() {
     client.leave(true)
   }else{
     client.leave()
+  }
+}
+
+
+//AUDIO START
+async function audioStart() {
+  try{
+    await stream.startAudio()
+    console.log(`${now()} audioStart`)
+  } catch (e){
+    console.log(e)
   }
 }
 
@@ -216,8 +227,8 @@ let len = 10
   await sleep(ms)
   console.log("Trying to wait for audio decoder: " + i)
    if(audioDecode){
-     await stream.startAudio()
-     console.log("audioStart")
+     console.log("audioStart ready.")
+     audioStart();
      break
    }
  }
